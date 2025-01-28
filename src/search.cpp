@@ -1788,9 +1788,9 @@ string UCI::pv(const Position& pos, Depth depth, Value alpha, Value beta) {
       if (elapsed > 1000) // Earlier makes little sense
           ss << " hashfull " << TT.hashfull();
 
-      ss << " tbhits "   << tbHits
-         << " time "     << elapsed
-         << " pv";
+      // ss << " tbhits "   << tbHits
+      //    << " time "     << elapsed
+      //    << " pv";
 
       for (Move m : rootMoves[i].pv)
           ss << " " << UCI::move(m, pos.is_chess960());

@@ -42,15 +42,15 @@ namespace Search {
   LimitsType Limits;
 }
 
-namespace Tablebases {
+// namespace Tablebases {
 
-  int Cardinality;
-  bool RootInTB;
-  bool UseRule50;
-  Depth ProbeDepth;
-}
+//   int Cardinality;
+//   bool RootInTB;
+//   bool UseRule50;
+//   Depth ProbeDepth;
+// }
 
-namespace TB = Tablebases;
+// namespace TB = Tablebases;
 
 using std::string;
 using Eval::evaluate;
@@ -733,55 +733,55 @@ namespace {
     }
 
     // Step 5. Tablebases probe
-    if (!rootNode && TB::Cardinality)
-    {
-        int piecesCount = pos.count<ALL_PIECES>();
+    // if (!rootNode && TB::Cardinality)
+    // {
+    //     int piecesCount = pos.count<ALL_PIECES>();
 
-        if (    piecesCount <= TB::Cardinality
-            && (piecesCount <  TB::Cardinality || depth >= TB::ProbeDepth)
-            &&  pos.rule50_count() == 0
-            && !pos.can_castle(ANY_CASTLING))
-        {
-            TB::ProbeState err;
-            TB::WDLScore wdl = Tablebases::probe_wdl(pos, &err);
+    //     if (    piecesCount <= TB::Cardinality
+    //         && (piecesCount <  TB::Cardinality || depth >= TB::ProbeDepth)
+    //         &&  pos.rule50_count() == 0
+    //         && !pos.can_castle(ANY_CASTLING))
+    //     {
+    //         TB::ProbeState err;
+    //         TB::WDLScore wdl = Tablebases::probe_wdl(pos, &err);
 
-            // Force check of time on the next occasion
-            if (thisThread == Threads.main())
-                static_cast<MainThread*>(thisThread)->callsCnt = 0;
+    //         // Force check of time on the next occasion
+    //         if (thisThread == Threads.main())
+    //             static_cast<MainThread*>(thisThread)->callsCnt = 0;
 
-            if (err != TB::ProbeState::FAIL)
-            {
-                thisThread->tbHits.fetch_add(1, std::memory_order_relaxed);
+    //         if (err != TB::ProbeState::FAIL)
+    //         {
+    //             thisThread->tbHits.fetch_add(1, std::memory_order_relaxed);
 
-                int drawScore = TB::UseRule50 ? 1 : 0;
+    //             int drawScore = TB::UseRule50 ? 1 : 0;
 
-                value =  wdl < -drawScore ? -VALUE_MATE + MAX_PLY + ss->ply + 1
-                       : wdl >  drawScore ?  VALUE_MATE - MAX_PLY - ss->ply - 1
-                                          :  VALUE_DRAW + 2 * wdl * drawScore;
+    //             value =  wdl < -drawScore ? -VALUE_MATE + MAX_PLY + ss->ply + 1
+    //                    : wdl >  drawScore ?  VALUE_MATE - MAX_PLY - ss->ply - 1
+    //                                       :  VALUE_DRAW + 2 * wdl * drawScore;
 
-                Bound b =  wdl < -drawScore ? BOUND_UPPER
-                         : wdl >  drawScore ? BOUND_LOWER : BOUND_EXACT;
+    //             Bound b =  wdl < -drawScore ? BOUND_UPPER
+    //                      : wdl >  drawScore ? BOUND_LOWER : BOUND_EXACT;
 
-                if (    b == BOUND_EXACT
-                    || (b == BOUND_LOWER ? value >= beta : value <= alpha))
-                {
-                    tte->save(posKey, value_to_tt(value, ss->ply), ttPv, b,
-                              std::min(MAX_PLY - 1, depth + 6),
-                              MOVE_NONE, VALUE_NONE);
+    //             if (    b == BOUND_EXACT
+    //                 || (b == BOUND_LOWER ? value >= beta : value <= alpha))
+    //             {
+    //                 tte->save(posKey, value_to_tt(value, ss->ply), ttPv, b,
+    //                           std::min(MAX_PLY - 1, depth + 6),
+    //                           MOVE_NONE, VALUE_NONE);
 
-                    return value;
-                }
+    //                 return value;
+    //             }
 
-                if (PvNode)
-                {
-                    if (b == BOUND_LOWER)
-                        bestValue = value, alpha = std::max(alpha, bestValue);
-                    else
-                        maxValue = value;
-                }
-            }
-        }
-    }
+    //             if (PvNode)
+    //             {
+    //                 if (b == BOUND_LOWER)
+    //                     bestValue = value, alpha = std::max(alpha, bestValue);
+    //                 else
+    //                     maxValue = value;
+    //             }
+    //         }
+    //     }
+    // }
 
     // Step 6. Static evaluation of the position
     if (inCheck)

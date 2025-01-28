@@ -207,7 +207,7 @@ void Search::clear() {
   Time.availableNodes = 0;
   TT.clear();
   Threads.clear();
-  Tablebases::init(Options["SyzygyPath"]); // Free mapped files
+  //Tablebases::init(Options["SyzygyPath"]); // Free mapped files
 }
 
 

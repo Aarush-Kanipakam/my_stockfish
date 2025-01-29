@@ -56,8 +56,8 @@ struct Entry {
   }
 
   Key key;
-  const EndgameBase<Value>* evaluationFunction;
-  const EndgameBase<ScaleFactor>* scalingFunction[COLOR_NB]; // Could be one for each
+  //const EndgameBase<Value>* evaluationFunction;
+  //const EndgameBase<ScaleFactor>* scalingFunction[COLOR_NB]; // Could be one for each
                                                              // side (e.g. KPKP, KBPsK)
   int16_t value;
   uint8_t factor[COLOR_NB];

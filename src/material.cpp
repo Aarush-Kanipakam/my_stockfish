@@ -54,12 +54,12 @@ namespace {
 
   // Endgame evaluation and scaling functions are accessed directly and not through
   // the function maps because they correspond to more than one material hash key.
-  Endgame<KXK>    EvaluateKXK[] = { Endgame<KXK>(WHITE),    Endgame<KXK>(BLACK) };
+  // Endgame<KXK>    EvaluateKXK[] = { Endgame<KXK>(WHITE),    Endgame<KXK>(BLACK) };
 
-  Endgame<KBPsK>  ScaleKBPsK[]  = { Endgame<KBPsK>(WHITE),  Endgame<KBPsK>(BLACK) };
-  Endgame<KQKRPs> ScaleKQKRPs[] = { Endgame<KQKRPs>(WHITE), Endgame<KQKRPs>(BLACK) };
-  Endgame<KPsK>   ScaleKPsK[]   = { Endgame<KPsK>(WHITE),   Endgame<KPsK>(BLACK) };
-  Endgame<KPKP>   ScaleKPKP[]   = { Endgame<KPKP>(WHITE),   Endgame<KPKP>(BLACK) };
+  // Endgame<KBPsK>  ScaleKBPsK[]  = { Endgame<KBPsK>(WHITE),  Endgame<KBPsK>(BLACK) };
+  // Endgame<KQKRPs> ScaleKQKRPs[] = { Endgame<KQKRPs>(WHITE), Endgame<KQKRPs>(BLACK) };
+  // Endgame<KPsK>   ScaleKPsK[]   = { Endgame<KPsK>(WHITE),   Endgame<KPsK>(BLACK) };
+  // Endgame<KPKP>   ScaleKPKP[]   = { Endgame<KPKP>(WHITE),   Endgame<KPKP>(BLACK) };
 
   // Helper used to detect a given material distribution
   bool is_KXK(const Position& pos, Color us) {
@@ -137,8 +137,8 @@ Entry* probe(const Position& pos) {
   // Let's look if we have a specialized evaluation function for this particular
   // material configuration. Firstly we look for a fixed configuration one, then
   // for a generic one if the previous search failed.
-  if ((e->evaluationFunction = Endgames::probe<Value>(key)) != nullptr)
-      return e;
+  // if ((e->evaluationFunction = Endgames::probe<Value>(key)) != nullptr)
+  //     return e;
 
   for (Color c : { WHITE, BLACK })
       if (is_KXK(pos, c))
@@ -149,13 +149,13 @@ Entry* probe(const Position& pos) {
 
   // OK, we didn't find any special evaluation function for the current material
   // configuration. Is there a suitable specialized scaling function?
-  const auto* sf = Endgames::probe<ScaleFactor>(key);
+  //const auto* sf = Endgames::probe<ScaleFactor>(key);
 
-  if (sf)
-  {
-      e->scalingFunction[sf->strongSide] = sf; // Only strong color assigned
-      return e;
-  }
+  // if (sf)
+  // {
+  //     e->scalingFunction[sf->strongSide] = sf; // Only strong color assigned
+  //     return e;
+  // }
 
   // We didn't find any specialized scaling function, so fall back on generic
   // ones that refer to more than one material distribution. Note that in this
@@ -163,7 +163,7 @@ Entry* probe(const Position& pos) {
   for (Color c : { WHITE, BLACK })
   {
     if (is_KBPsK(pos, c))
-        e->scalingFunction[c] = &ScaleKBPsK[c];
+        e->c[c] = &ScaleKBPsK[c];
 
     else if (is_KQKRPs(pos, c))
         e->scalingFunction[c] = &ScaleKQKRPs[c];

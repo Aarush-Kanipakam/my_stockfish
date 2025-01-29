@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
   Bitboards::init();
   Position::init();
   Bitbases::init();
-  Endgames::init();
+  //Endgames::init();
   Threads.set(Options["Threads"]);
   Search::clear(); // After threads are up
 

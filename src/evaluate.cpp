@@ -740,25 +740,25 @@ namespace {
   // Evaluation::scale_factor() computes the scale factor for the winning side
 
   template<Tracing T>
-  ScaleFactor Evaluation<T>::scale_factor(Value eg) const {
+  // ScaleFactor Evaluation<T>::scale_factor(Value eg) const {
 
-    Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
-    int sf = me->scale_factor(pos, strongSide);
+  //   Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
+  //   int sf = me->scale_factor(pos, strongSide);
 
-    // If scale is not already specific, scale down the endgame via general heuristics
-    if (sf == SCALE_FACTOR_NORMAL)
-    {
-        if (   pos.opposite_bishops()
-            && pos.non_pawn_material() == 2 * BishopValueMg)
-            sf = 22 ;
-        else
-            sf = std::min(sf, 36 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide));
+  //   // If scale is not already specific, scale down the endgame via general heuristics
+  //   if (sf == SCALE_FACTOR_NORMAL)
+  //   {
+  //       if (   pos.opposite_bishops()
+  //           && pos.non_pawn_material() == 2 * BishopValueMg)
+  //           sf = 22 ;
+  //       else
+  //           sf = std::min(sf, 36 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide));
 
-        sf = std::max(0, sf - (pos.rule50_count() - 12) / 4);
-    }
+  //       sf = std::max(0, sf - (pos.rule50_count() - 12) / 4);
+  //   }
 
-    return ScaleFactor(sf);
-  }
+  //   return ScaleFactor(sf);
+  // }
 
 
   // Evaluation::value() is the main function of the class. It computes the various
@@ -775,8 +775,8 @@ namespace {
 
     // If we have a specialized evaluation function for the current material
     // configuration, call it and return.
-    if (me->specialized_eval_exists())
-        return me->evaluate(pos);
+    // if (me->specialized_eval_exists())
+    //     return me->evaluate(pos);
 
     // Initialize score by reading the incrementally updated scores included in
     // the position object (material + piece square tables) and the material
